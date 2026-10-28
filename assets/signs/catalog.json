@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "description": "Linear RGB emission tints; intensity is HDR radiance multiplier. region_id is a permanent atlas lookup key, not the sign array position.",
+  "signs": [
+    {"region_id": 0, "key": "night_market", "text": "夜市", "kind": "Tube", "kind_id": 1, "color_linear": [1.0, 0.025, 0.28], "intensity": 12.0, "seed": 101},
+    {"region_id": 1, "key": "ramen", "text": "ラーメン", "kind": "Tube", "kind_id": 1, "color_linear": [1.0, 0.04, 0.36], "intensity": 11.0, "seed": 102},
+    {"region_id": 2, "key": "open", "text": "OPEN 24H", "kind": "Tube", "kind_id": 1, "color_linear": [0.02, 0.65, 1.0], "intensity": 9.0, "seed": 103},
+    {"region_id": 3, "key": "tea", "text": "深夜茶室", "kind": "Tube", "kind_id": 1, "color_linear": [1.0, 0.025, 0.24], "intensity": 10.5, "seed": 104},
+    {"region_id": 4, "key": "bar", "text": "NEON BAR", "kind": "Tube", "kind_id": 1, "color_linear": [1.0, 0.035, 0.4], "intensity": 10.0, "seed": 105},
+    {"region_id": 5, "key": "sushi", "text": "すし", "kind": "Tube", "kind_id": 1, "color_linear": [0.02, 0.8, 1.0], "intensity": 9.5, "seed": 106},
+    {"region_id": 6, "key": "arcade", "text": "電脳遊戯", "kind": "Led", "kind_id": 2, "color_linear": [1.0, 0.025, 0.32], "intensity": 5.5, "seed": 201},
+    {"region_id": 7, "key": "repair", "text": "機械修理", "kind": "Led", "kind_id": 2, "color_linear": [0.025, 0.7, 1.0], "intensity": 5.0, "seed": 202},
+    {"region_id": 8, "key": "food", "text": "FOOD 24H", "kind": "Led", "kind_id": 2, "color_linear": [1.0, 0.04, 0.22], "intensity": 6.0, "seed": 203},
+    {"region_id": 9, "key": "drinks", "text": "冷飲", "kind": "Led", "kind_id": 2, "color_linear": [0.015, 0.8, 1.0], "intensity": 4.5, "seed": 204},
+    {"region_id": 10, "key": "hotel", "text": "HOTEL 08", "kind": "Led", "kind_id": 2, "color_linear": [1.0, 0.03, 0.4], "intensity": 5.0, "seed": 205},
+    {"region_id": 11, "key": "music", "text": "音楽", "kind": "Led", "kind_id": 2, "color_linear": [0.38, 0.025, 1.0], "intensity": 5.5, "seed": 206},
+    {"region_id": 12, "key": "future", "text": "未来通信", "kind": "Hologram", "kind_id": 3, "color_linear": [0.02, 0.8, 1.0], "intensity": 4.0, "seed": 301},
+    {"region_id": 13, "key": "dream", "text": "夢の都市", "kind": "Hologram", "kind_id": 3, "color_linear": [1.0, 0.035, 0.5], "intensity": 4.5, "seed": 302},
+    {"region_id": 14, "key": "link", "text": "LINK 2077", "kind": "Hologram", "kind_id": 3, "color_linear": [1.0, 0.025, 0.35], "intensity": 4.0, "seed": 303},
+    {"region_id": 15, "key": "flight", "text": "空中配送", "kind": "Hologram", "kind_id": 3, "color_linear": [0.03, 0.7, 1.0], "intensity": 3.5, "seed": 304},
+    {"region_id": 16, "key": "virtual", "text": "仮想空間", "kind": "Hologram", "kind_id": 3, "color_linear": [0.42, 0.025, 1.0], "intensity": 4.0, "seed": 305},
+    {"region_id": 17, "key": "memory", "text": "MEMORY", "kind": "Hologram", "kind_id": 3, "color_linear": [1.0, 0.025, 0.45], "intensity": 4.0, "seed": 306},
+    {"region_id": 18, "key": "signal", "text": "NO SIGNAL", "kind": "FaultText", "kind_id": 4, "color_linear": [1.0, 0.025, 0.3], "intensity": 7.0, "seed": 401},
+    {"region_id": 19, "key": "electric", "text": "電気街", "kind": "FaultText", "kind_id": 4, "color_linear": [1.0, 0.03, 0.4], "intensity": 6.5, "seed": 402},
+    {"region_id": 20, "key": "echo", "text": "ECHO 09", "kind": "FaultText", "kind_id": 4, "color_linear": [0.03, 0.7, 1.0], "intensity": 6.0, "seed": 403},
+    {"region_id": 21, "key": "alley", "text": "裏路地", "kind": "FaultText", "kind_id": 4, "color_linear": [1.0, 0.025, 0.25], "intensity": 6.0, "seed": 404},
+    {"region_id": 22, "key": "error", "text": "ERROR 404", "kind": "FaultText", "kind_id": 4, "color_linear": [0.4, 0.025, 1.0], "intensity": 7.0, "seed": 405},
+    {"region_id": 23, "key": "night_train", "text": "夜行列車", "kind": "FaultText", "kind_id": 4, "color_linear": [1.0, 0.035, 0.35], "intensity": 6.5, "seed": 406}
+  ]
+}

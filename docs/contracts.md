@@ -1,0 +1,9 @@
+# Contract V1
+
+The Rust types in `src/contract/` and `src/shaders/common.wgsl` define the shared ABI. GPU structures use explicit 16-byte lanes, column-major matrices, and u32/f32 only. Words are little-endian; packed section offsets are in u32 words and start on 16-byte boundaries. Static and dynamic headers are 64 bytes. BVH root is 0; the high bit of `right_or_count` marks a leaf, with the lower bits holding its triangle count. Maximum build depth is 48 and shader stack capacity is 64.
+
+Scene, frame, dynamic frame, and packed scene descriptors are public. Builders, animation and renderer implementations belong to their respective modules. The current implementation uses a web-sys canvas directly, without winit; initialization is asynchronous. It builds a deterministic 120 m scene with 12 buildings per side (24 total), builds a software BVH, and runs a WebGPU render loop. Adapter/limit and format checks are performed during startup. Device-loss recovery and final browser/GPU acceptance remain outstanding; this contract does not claim those are complete.
+
+G-buffer: G0 rgba8unorm linear base/metallic; G1 rgba16float world normal/roughness; G2 rgba16float emission/bloom class; G3 rgba16float current-to-previous UV motion/previous linear depth/material ID; depth32float. Previous UV = current UV + motion. Material IDs must be below 2048. A negative previous depth invalidates history.
+
+Balanced reflection dimensions are half the internal width and height; performance dimensions are one quarter. The ray pass budget is four storage buffers and two rgba16float storage textures. Static triangles are world-space; dynamic primitive 0 is a unit box and 1 a radius-0.5 sphere; do not normalize transformed ray directions. Temporal AO and shadow histories are independent. Full bindings and acceptance requirements are in the parent integration plan.

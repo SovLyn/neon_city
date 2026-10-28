@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "size": [
+    2048,
+    1536
+  ],
+  "format": "RGBA8",
+  "regions": 24,
+  "kinds": {
+    "Tube": 6,
+    "Led": 6,
+    "Hologram": 6,
+    "FaultText": 6
+  },
+  "unique_characters": 71,
+  "missing_characters": [],
+  "region_bounds": "PASS",
+  "region_overlap": "none",
+  "uv_bounds": "PASS",
+  "font_license_and_hash": "PASS",
+  "atlas_sha256": "5be1e260920585ab597018733eb263e36b11ae7443edf5e47b5b9a671bf57fa6",
+  "glyph_coverage_note": "cmap presence checked for every codepoint; not a claim of screenshot legibility at arbitrary distance"
+}

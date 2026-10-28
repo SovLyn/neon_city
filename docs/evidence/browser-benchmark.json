@@ -1,0 +1,70 @@
+{
+  "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "method": "Headless Chromium; stationary default camera; live animation. RAF interval timings are NOT GPU timings.",
+  "warmupSeconds": 10,
+  "requestedSampleSeconds": 60,
+  "tiers": [
+    {
+      "tier": "Balanced",
+      "samples": 5652,
+      "warmupSeconds": 10.195,
+      "actualSampleSeconds": 60.000000000000384,
+      "medianIntervalMs": 8.19999999999709,
+      "p95IntervalMs": 22.100000000000364,
+      "p99IntervalMs": 24.599999999998545,
+      "meanIntervalMs": 10.615711252653997,
+      "meanCpuMs": 0.4682767161096315,
+      "finalMetrics": {
+        "frame": 6217,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 8.5,
+        "cpu_ms": 0.3999999761581421,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 70.36510467529297,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      }
+    },
+    {
+      "tier": "Performance",
+      "samples": 7635,
+      "warmupSeconds": 10.217,
+      "actualSampleSeconds": 60.00100000000001,
+      "medianIntervalMs": 8.19999999999709,
+      "p95IntervalMs": 8.30000000000291,
+      "p99IntervalMs": 8.60000000000582,
+      "meanIntervalMs": 7.858677144728227,
+      "meanCpuMs": 0.49105435518478363,
+      "finalMetrics": {
+        "frame": 15135,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 8.199999999982538,
+        "cpu_ms": 0.3999999761581421,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 140.6352996826172,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Performance"
+      }
+    }
+  ]
+}

@@ -1,0 +1,789 @@
+{
+  "schema_version": 1,
+  "encoding": "rgba8unorm-white-rgb-straight-alpha-coverage",
+  "not_msdf": true,
+  "image": "signs-rgba.png",
+  "width": 2048,
+  "height": 1536,
+  "origin": "top-left",
+  "rect_px_convention": "x0,y0,x1,y1; exclusive max",
+  "uv_convention": "texel-center-inset; local UV 0..1 maps by mix(uv.xy,uv.zw,local_uv)",
+  "sampling": "linear min/mag; clamp-to-edge; no automatic atlas mipmaps",
+  "shader_usage": "mask=textureSample(atlas,sampler,uv).a; emission=color_linear*intensity*mask",
+  "regions": [
+    {
+      "region_id": 0,
+      "key": "night_market",
+      "text": "夜市",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        12,
+        12,
+        500,
+        244
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.008138020833333334,
+        0.243896484375,
+        0.15852864583333334
+      ],
+      "cell_rect_px": [
+        0,
+        0,
+        512,
+        256
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        188,
+        95,
+        324,
+        161
+      ]
+    },
+    {
+      "region_id": 1,
+      "key": "ramen",
+      "text": "ラーメン",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        524,
+        12,
+        1012,
+        244
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.008138020833333334,
+        0.493896484375,
+        0.15852864583333334
+      ],
+      "cell_rect_px": [
+        512,
+        0,
+        1024,
+        256
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        99,
+        392,
+        156
+      ]
+    },
+    {
+      "region_id": 2,
+      "key": "open",
+      "text": "OPEN 24H",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        1036,
+        12,
+        1524,
+        244
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.008138020833333334,
+        0.743896484375,
+        0.15852864583333334
+      ],
+      "cell_rect_px": [
+        1024,
+        0,
+        1536,
+        256
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        90,
+        102,
+        421,
+        154
+      ]
+    },
+    {
+      "region_id": 3,
+      "key": "tea",
+      "text": "深夜茶室",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        1548,
+        12,
+        2036,
+        244
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.008138020833333334,
+        0.993896484375,
+        0.15852864583333334
+      ],
+      "cell_rect_px": [
+        1536,
+        0,
+        2048,
+        256
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        95,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 4,
+      "key": "bar",
+      "text": "NEON BAR",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        12,
+        268,
+        500,
+        500
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.1748046875,
+        0.243896484375,
+        0.3251953125
+      ],
+      "cell_rect_px": [
+        0,
+        256,
+        512,
+        512
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        84,
+        102,
+        428,
+        154
+      ]
+    },
+    {
+      "region_id": 5,
+      "key": "sushi",
+      "text": "すし",
+      "kind": "Tube",
+      "kind_id": 1,
+      "rect_px": [
+        524,
+        268,
+        1012,
+        500
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.1748046875,
+        0.493896484375,
+        0.3251953125
+      ],
+      "cell_rect_px": [
+        512,
+        256,
+        1024,
+        512
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        188,
+        98,
+        324,
+        158
+      ]
+    },
+    {
+      "region_id": 6,
+      "key": "arcade",
+      "text": "電脳遊戯",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        1036,
+        268,
+        1524,
+        500
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.1748046875,
+        0.743896484375,
+        0.3251953125
+      ],
+      "cell_rect_px": [
+        1024,
+        256,
+        1536,
+        512
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        96,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 7,
+      "key": "repair",
+      "text": "機械修理",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        1548,
+        268,
+        2036,
+        500
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.1748046875,
+        0.993896484375,
+        0.3251953125
+      ],
+      "cell_rect_px": [
+        1536,
+        256,
+        2048,
+        512
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        96,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 8,
+      "key": "food",
+      "text": "FOOD 24H",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        12,
+        524,
+        500,
+        756
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.3414713541666667,
+        0.243896484375,
+        0.4918619791666667
+      ],
+      "cell_rect_px": [
+        0,
+        512,
+        512,
+        768
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        88,
+        102,
+        423,
+        154
+      ]
+    },
+    {
+      "region_id": 9,
+      "key": "drinks",
+      "text": "冷飲",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        524,
+        524,
+        1012,
+        756
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.3414713541666667,
+        0.493896484375,
+        0.4918619791666667
+      ],
+      "cell_rect_px": [
+        512,
+        512,
+        1024,
+        768
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        188,
+        96,
+        324,
+        160
+      ]
+    },
+    {
+      "region_id": 10,
+      "key": "hotel",
+      "text": "HOTEL 08",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        1036,
+        524,
+        1524,
+        756
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.3414713541666667,
+        0.743896484375,
+        0.4918619791666667
+      ],
+      "cell_rect_px": [
+        1024,
+        512,
+        1536,
+        768
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        97,
+        102,
+        414,
+        154
+      ]
+    },
+    {
+      "region_id": 11,
+      "key": "music",
+      "text": "音楽",
+      "kind": "Led",
+      "kind_id": 2,
+      "rect_px": [
+        1548,
+        524,
+        2036,
+        756
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.3414713541666667,
+        0.993896484375,
+        0.4918619791666667
+      ],
+      "cell_rect_px": [
+        1536,
+        512,
+        2048,
+        768
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        188,
+        95,
+        324,
+        160
+      ]
+    },
+    {
+      "region_id": 12,
+      "key": "future",
+      "text": "未来通信",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        12,
+        780,
+        500,
+        1012
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.5081380208333334,
+        0.243896484375,
+        0.6585286458333334
+      ],
+      "cell_rect_px": [
+        0,
+        768,
+        512,
+        1024
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        96,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 13,
+      "key": "dream",
+      "text": "夢の都市",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        524,
+        780,
+        1012,
+        1012
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.5081380208333334,
+        0.493896484375,
+        0.6585286458333334
+      ],
+      "cell_rect_px": [
+        512,
+        768,
+        1024,
+        1024
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        95,
+        392,
+        161
+      ]
+    },
+    {
+      "region_id": 14,
+      "key": "link",
+      "text": "LINK 2077",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        1036,
+        780,
+        1524,
+        1012
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.5081380208333334,
+        0.743896484375,
+        0.6585286458333334
+      ],
+      "cell_rect_px": [
+        1024,
+        768,
+        1536,
+        1024
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        92,
+        102,
+        419,
+        154
+      ]
+    },
+    {
+      "region_id": 15,
+      "key": "flight",
+      "text": "空中配送",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        1548,
+        780,
+        2036,
+        1012
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.5081380208333334,
+        0.993896484375,
+        0.6585286458333334
+      ],
+      "cell_rect_px": [
+        1536,
+        768,
+        2048,
+        1024
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        96,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 16,
+      "key": "virtual",
+      "text": "仮想空間",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        12,
+        1036,
+        500,
+        1268
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.6748046875,
+        0.243896484375,
+        0.8251953125
+      ],
+      "cell_rect_px": [
+        0,
+        1024,
+        512,
+        1280
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        95,
+        392,
+        160
+      ]
+    },
+    {
+      "region_id": 17,
+      "key": "memory",
+      "text": "MEMORY",
+      "kind": "Hologram",
+      "kind_id": 3,
+      "rect_px": [
+        524,
+        1036,
+        1012,
+        1268
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.6748046875,
+        0.493896484375,
+        0.8251953125
+      ],
+      "cell_rect_px": [
+        512,
+        1024,
+        1024,
+        1280
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        110,
+        102,
+        401,
+        154
+      ]
+    },
+    {
+      "region_id": 18,
+      "key": "signal",
+      "text": "NO SIGNAL",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        1036,
+        1036,
+        1524,
+        1268
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.6748046875,
+        0.743896484375,
+        0.8251953125
+      ],
+      "cell_rect_px": [
+        1024,
+        1024,
+        1536,
+        1280
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        75,
+        102,
+        437,
+        154
+      ]
+    },
+    {
+      "region_id": 19,
+      "key": "electric",
+      "text": "電気街",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        1548,
+        1036,
+        2036,
+        1268
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.6748046875,
+        0.993896484375,
+        0.8251953125
+      ],
+      "cell_rect_px": [
+        1536,
+        1024,
+        2048,
+        1280
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        154,
+        95,
+        358,
+        161
+      ]
+    },
+    {
+      "region_id": 20,
+      "key": "echo",
+      "text": "ECHO 09",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        12,
+        1292,
+        500,
+        1524
+      ],
+      "uv_rect": [
+        0.006103515625,
+        0.8414713541666666,
+        0.243896484375,
+        0.9918619791666666
+      ],
+      "cell_rect_px": [
+        0,
+        1280,
+        512,
+        1536
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        115,
+        102,
+        396,
+        154
+      ]
+    },
+    {
+      "region_id": 21,
+      "key": "alley",
+      "text": "裏路地",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        524,
+        1292,
+        1012,
+        1524
+      ],
+      "uv_rect": [
+        0.256103515625,
+        0.8414713541666666,
+        0.493896484375,
+        0.9918619791666666
+      ],
+      "cell_rect_px": [
+        512,
+        1280,
+        1024,
+        1536
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        154,
+        96,
+        358,
+        160
+      ]
+    },
+    {
+      "region_id": 22,
+      "key": "error",
+      "text": "ERROR 404",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        1036,
+        1292,
+        1524,
+        1524
+      ],
+      "uv_rect": [
+        0.506103515625,
+        0.8414713541666666,
+        0.743896484375,
+        0.9918619791666666
+      ],
+      "cell_rect_px": [
+        1024,
+        1280,
+        1536,
+        1536
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        74,
+        102,
+        437,
+        154
+      ]
+    },
+    {
+      "region_id": 23,
+      "key": "night_train",
+      "text": "夜行列車",
+      "kind": "FaultText",
+      "kind_id": 4,
+      "rect_px": [
+        1548,
+        1292,
+        2036,
+        1524
+      ],
+      "uv_rect": [
+        0.756103515625,
+        0.8414713541666666,
+        0.993896484375,
+        0.9918619791666666
+      ],
+      "cell_rect_px": [
+        1536,
+        1280,
+        2048,
+        1536
+      ],
+      "font_size_px": 68,
+      "text_ink_rect_px": [
+        120,
+        95,
+        392,
+        160
+      ]
+    }
+  ],
+  "characters": " 024789ABCDEFGHIKLMNOPRSTYしすのメランー中仮信修冷列地夜夢室市想戯未来械楽機気深理空脳茶行街裏路車送通遊都配間電音飲",
+  "font_sha256": "3422c333a450c210734f78e98c0121ffbe3f03f24e1dfcbcd079307e64a3e4b1",
+  "catalog_sha256": "ac00602bad6af5c42482b66f57d1f5dd980dce4a7515ed90aa76e238b23b580f",
+  "atlas_sha256": "5be1e260920585ab597018733eb263e36b11ae7443edf5e47b5b9a671bf57fa6",
+  "pillow": "12.1.1",
+  "fonttools": "4.61.1"
+}

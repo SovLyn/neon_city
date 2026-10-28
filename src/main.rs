@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    println!("Neon City runs in the browser; build with Trunk.");
 }

@@ -1,0 +1,176 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Validate and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain from rust-toolchain.toml
+        run: |
+          toolchain="$(python3 -c 'import tomllib; print(tomllib.load(open("rust-toolchain.toml", "rb"))["toolchain"]["channel"])')"
+          targets="$(python3 -c 'import tomllib; print(",".join(tomllib.load(open("rust-toolchain.toml", "rb"))["toolchain"].get("targets", [])))')"
+          rustup toolchain install "$toolchain" --profile minimal --component rustfmt --target "$targets"
+          rustup default "$toolchain"
+
+      - name: Cache Rust artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: wasm32-trunk-0.21.14
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run host tests
+        run: cargo test --locked
+
+      - name: Check WebAssembly target
+        run: cargo check --locked --target wasm32-unknown-unknown
+
+      - name: Install Trunk
+        run: cargo install trunk --locked --version 0.21.14
+
+      - name: Configure Pages
+        id: pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/configure-pages@v5
+
+      - name: Build site
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          if [ "$EVENT_NAME" = "push" ]; then
+            base_path="${PAGES_BASE_PATH%/}"
+            if [ -z "$base_path" ]; then
+              public_url="/"
+            else
+              public_url="${base_path}/"
+            fi
+          else
+            public_url="/neon_city/"
+          fi
+          echo "PUBLIC_URL=${public_url}" >> "$GITHUB_ENV"
+          echo "Building with Trunk public-url: ${public_url}"
+          trunk build --release --locked --public-url "$public_url"
+
+      - name: Check built HTML, WASM, and JS glue paths
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import unquote, urlsplit
+          import posixpath
+
+          RESOURCE_RELS = {"stylesheet", "modulepreload", "preload", "prefetch"}
+
+          class Resources(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.urls = []
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if tag == "script" and attrs.get("src"):
+                      self.urls.append(attrs["src"])
+                  elif tag == "link" and attrs.get("href") and set(attrs.get("rel", "").lower().split()) & RESOURCE_RELS:
+                      self.urls.append(attrs["href"])
+
+          def resolve_asset(url, public_url):
+              parts = urlsplit(url)
+              if parts.scheme or parts.netloc or not parts.path or url.startswith("#"):
+                  return None
+              path = unquote(parts.path)
+              if path.startswith("/"):
+                  if public_url != "/" and not path.startswith(public_url):
+                      raise AssertionError(f"asset is outside public URL {public_url}: {url}")
+                  relative = path[len(public_url):] if public_url != "/" else path.lstrip("/")
+              else:
+                  relative = posixpath.relpath(posixpath.normpath(posixpath.join(public_url, path)), public_url)
+              normalized = posixpath.normpath(relative)
+              if normalized == ".." or normalized.startswith("../") or normalized.startswith("/"):
+                  raise AssertionError(f"asset path escapes public URL {public_url}: {url}")
+              return normalized
+
+          # Exercise Trunk-style tags and both project/root deployment bases.
+          sample = '''<html><head><base href="/neon_city/"><link rel="modulepreload" href="/neon_city/hashed.js"><link rel="preload" as="fetch" href="/neon_city/app_bg.wasm"></head><body><script type="module" src="/neon_city/hashed.js"></script></body></html>'''
+          parser = Resources()
+          parser.feed(sample)
+          assert parser.urls == ["/neon_city/hashed.js", "/neon_city/app_bg.wasm", "/neon_city/hashed.js"]
+          assert [resolve_asset(url, "/neon_city/") for url in parser.urls] == ["hashed.js", "app_bg.wasm", "hashed.js"]
+          assert resolve_asset("/app.js", "/") == "app.js"
+          try:
+              resolve_asset("/evil.js", "/neon_city/")
+          except AssertionError:
+              pass
+          else:
+              raise AssertionError("project base must reject /evil.js")
+          try:
+              resolve_asset("../evil.js", "/neon_city/")
+          except AssertionError:
+              pass
+          else:
+              raise AssertionError("relative traversal must be rejected")
+
+          public_url = __import__("os").environ["PUBLIC_URL"]
+          assert public_url.startswith("/") and public_url.endswith("/")
+          root = Path("dist")
+          html_path = root / "index.html"
+          assert html_path.is_file(), "dist/index.html is missing"
+          parser = Resources()
+          parser.feed(html_path.read_text(encoding="utf-8"))
+          local_urls = [url for url in parser.urls if resolve_asset(url, public_url) is not None]
+          assert local_urls, "index.html contains no local script/resource references"
+          for url in local_urls:
+              relative = resolve_asset(url, public_url)
+              assert (root / relative).is_file(), f"referenced asset missing from dist: {url}"
+
+          assert list(root.rglob("*.wasm")), "no wasm file found in dist"
+          assert list(root.rglob("*.js")), "no JS glue file found in dist"
+          print(f"Validated resource-tag paths under {public_url}")
+          PY
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Upload PR build artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-build-pr
+          path: dist
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

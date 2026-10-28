@@ -1,0 +1,146 @@
+[
+  {
+    "name": "showcase",
+    "query": "camera=showcase&time=3&paused=1",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 48.69999999999982,
+      "cpu_ms": 0.699999988079071,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  },
+  {
+    "name": "no-bloom",
+    "query": "camera=showcase&time=3&paused=1&bloom=0",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 48.29999999999973,
+      "cpu_ms": 0.699999988079071,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  },
+  {
+    "name": "no-atmosphere",
+    "query": "camera=showcase&time=3&paused=1&atmosphere=0",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 61.40000000000009,
+      "cpu_ms": 1.199999988079071,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  },
+  {
+    "name": "reflection",
+    "query": "camera=showcase&time=3&paused=1&debug=reflection",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 47.79999999999973,
+      "cpu_ms": 1.2999999523162842,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  },
+  {
+    "name": "roughness",
+    "query": "camera=showcase&time=3&paused=1&debug=roughness",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 48.799999999999955,
+      "cpu_ms": 1.300000011920929,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  },
+  {
+    "name": "normal",
+    "query": "camera=showcase&time=3&paused=1&debug=normal",
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 50.40000000000009,
+      "cpu_ms": 0.8999999761581421,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    },
+    "errors": []
+  }
+]
