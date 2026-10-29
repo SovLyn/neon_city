@@ -8,6 +8,7 @@ const evidenceDir = path.resolve(process.env.EVIDENCE_DIR || 'docs/evidence');
 const views = [
   ['showcase', 'camera=showcase&time=3&paused=1'],
   ['no-bloom', 'camera=showcase&time=3&paused=1&bloom=0'],
+  ['textures-off', 'camera=showcase&time=3&paused=1&bloom=0&textures=0'],
   ['no-atmosphere', 'camera=showcase&time=3&paused=1&atmosphere=0'],
   ['reflection', 'camera=showcase&time=3&paused=1&debug=reflection'],
   ['roughness', 'camera=showcase&time=3&paused=1&debug=roughness'],
@@ -41,7 +42,7 @@ const recordError = (result, error) => { result.errors.push(String(error)); resu
       finally { if (page) try { await page.close(); } catch (e) { recordError(result, `page close: ${e}`); } }
     }
 
-    for (const mode of ['quality-resize-pause', 'no-adapter', 'missing-atlas', 'device-destroy']) {
+    for (const mode of ['quality-resize-pause', 'no-adapter', 'missing-atlas', 'missing-materials', 'device-destroy']) {
       let page;
       const result = { mode, errors: [], pass: false };
       results.push(result);
@@ -55,6 +56,7 @@ const recordError = (result, error) => { result.errors.push(String(error)); resu
           GPUCanvasContext.prototype.configure = function (config) { window.__checkDevice = config.device; return configure.call(this, config); };
         });
         if (mode === 'missing-atlas') await page.route('**/signs-rgba.png', route => route.abort());
+        if (mode === 'missing-materials') await page.route('**/materials-detail.png', route => route.abort());
         await page.goto(baseUrl, { waitUntil: 'load' });
         await page.waitForFunction(() => window.__neonMetrics?.frame > 10 || window.__neonMetrics?.fatal_error, null, { timeout: 60000 });
         if (mode === 'quality-resize-pause') {

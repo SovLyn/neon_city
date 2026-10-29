@@ -12,7 +12,7 @@ fn raster_and_bvh_share_night_palette_without_exposure_hack() {
         assert!(ray.contains(color), "ray palette missing {color}");
     }
     assert!(post.contains("sky_fill*clamp(a.r,0.,1.)*surface_scale"));
-    assert!(ray.contains("color=em+sv3(m)*"));
+    assert!(ray.contains("color=em+"));
     // Keep non-lighting comparisons independent of the artistic fill.
     assert!(post.contains("if(frame.counts.y!=0u){return Lit"));
 }

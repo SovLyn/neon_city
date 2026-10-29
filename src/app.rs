@@ -165,8 +165,38 @@ async fn fetch_bytes(path: &str) -> Result<Vec<u8>, String> {
     Ok(js_sys::Uint8Array::new(&buffer).to_vec())
 }
 
-// The atlas metadata stores top-left-origin, normalized, texel-center-inset UVs.
-// Region IDs must match the material atlas_region indices produced by the scene.
+// Decode raw RGBA so roughness in alpha never premultiplies the normal channels.
+async fn load_material_textures() -> Result<(Vec<u8>, Vec<u8>, u32, u32), String> {
+    const TILE_LIMIT: u32 = 1024;
+    let decode = |bytes: &[u8], name: &str| {
+        image::load_from_memory_with_format(bytes, image::ImageFormat::Png)
+            .map(|image| image.to_rgba8())
+            .map_err(|error| format!("{name} PNG: {error}"))
+    };
+    let color_bytes = fetch_bytes("assets/materials/materials-color.png").await?;
+    let detail_bytes = fetch_bytes("assets/materials/materials-detail.png").await?;
+    let color = decode(&color_bytes, "material color")?;
+    let detail = decode(&detail_bytes, "material detail")?;
+    let (width, height) = color.dimensions();
+    let (detail_width, detail_height) = detail.dimensions();
+    let tile = width / 3;
+    if width != 1536
+        || height != 1023
+        || detail_width != width
+        || detail_height != height
+        || width % 3 != 0
+        || !tile.is_power_of_two()
+        || height != 2 * tile - 1
+        || tile > TILE_LIMIT
+    {
+        return Err(format!(
+            "invalid material atlas dimensions: color={width}x{height}, detail={detail_width}x{detail_height}"
+        ));
+    }
+    Ok((color.into_raw(), detail.into_raw(), width, height))
+}
+
+// The sign atlas uses top-left-origin, texel-center-inset UVs and stable region IDs.
 async fn load_atlas() -> Result<(Vec<u8>, u32, u32, Vec<[f32; 4]>), String> {
     let png = fetch_bytes("assets/fonts/signs-rgba.png").await?;
     let metadata = fetch_bytes("assets/fonts/signs-rgba.json").await?;
@@ -538,7 +568,7 @@ pub async fn start() -> Result<(), String> {
     let seed = config.seed;
     let mut scene_builder = SceneBuilder::new(config);
     let mut slice_start = now_ms()?;
-    let scene = loop {
+    let mut scene = loop {
         match scene_builder.step(1).map_err(|e| format!("scene: {e}"))? {
             BuildPoll::Ready(scene) => break scene,
             BuildPoll::Pending { progress } => {
@@ -550,6 +580,12 @@ pub async fn start() -> Result<(), String> {
             }
         }
     };
+    let textures_disabled = config::parameter("textures").as_deref() == Some("0");
+    if textures_disabled {
+        for material in &mut scene.materials {
+            material.flags &= !(0b11 << 8);
+        }
+    }
     let mut builder = BvhBuild::new(&scene).map_err(|e| format!("BVH: {e}"))?;
     slice_start = now_ms()?;
     let packed = loop {
@@ -588,6 +624,22 @@ pub async fn start() -> Result<(), String> {
             status("运行中");
         }
         Err(error) => return Err(format!("atlas unavailable: {error}")),
+    }
+    if !textures_disabled {
+        match load_material_textures().await {
+            Ok((color, detail, width, height)) => {
+                if let Err(error) =
+                    renderer.upload_material_textures(&color, &detail, width, height)
+                {
+                    show_error(&format!("material textures unavailable: {error}"));
+                    return Err(format!("material textures unavailable: {error}"));
+                }
+            }
+            Err(error) => {
+                show_error(&format!("material textures unavailable: {error}"));
+                return Err(format!("material textures unavailable: {error}"));
+            }
+        }
     }
     let controls = Rc::new(RefCell::new(Controls {
         paused: config::parameter("paused").as_deref() == Some("1"),

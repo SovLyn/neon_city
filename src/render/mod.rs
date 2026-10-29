@@ -35,6 +35,136 @@ mod web {
         let view = t.create_view(&Default::default());
         Target { _texture: t, view }
     }
+    fn material_array(
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        tile: u32,
+        format: wgpu::TextureFormat,
+        pixel: &[u8],
+    ) -> Target {
+        let layers = 3;
+        let mips = tile.ilog2() + 1;
+        let tex = device.create_texture(&wgpu::TextureDescriptor {
+            label: Some("material array"),
+            size: wgpu::Extent3d {
+                width: tile,
+                height: tile,
+                depth_or_array_layers: layers,
+            },
+            mip_level_count: mips,
+            sample_count: 1,
+            dimension: wgpu::TextureDimension::D2,
+            format,
+            usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+            view_formats: &[],
+        });
+        for layer in 0..layers {
+            let data = vec![pixel[0], pixel[1], pixel[2], pixel[3]];
+            queue.write_texture(
+                wgpu::TexelCopyTextureInfo {
+                    texture: &tex,
+                    mip_level: 0,
+                    origin: wgpu::Origin3d {
+                        x: 0,
+                        y: 0,
+                        z: layer,
+                    },
+                    aspect: wgpu::TextureAspect::All,
+                },
+                &data,
+                wgpu::TexelCopyBufferLayout {
+                    offset: 0,
+                    bytes_per_row: Some(4),
+                    rows_per_image: Some(1),
+                },
+                wgpu::Extent3d {
+                    width: 1,
+                    height: 1,
+                    depth_or_array_layers: 1,
+                },
+            );
+        }
+        let view = tex.create_view(&wgpu::TextureViewDescriptor {
+            dimension: Some(wgpu::TextureViewDimension::D2Array),
+            array_layer_count: Some(3),
+            ..Default::default()
+        });
+        Target {
+            _texture: tex,
+            view,
+        }
+    }
+    fn upload_material_array(
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        data: &[u8],
+        tile: u32,
+        format: wgpu::TextureFormat,
+    ) -> Target {
+        let layers = 3;
+        let mips = tile.ilog2() + 1;
+        let tex = device.create_texture(&wgpu::TextureDescriptor {
+            label: Some("material texture array"),
+            size: wgpu::Extent3d {
+                width: tile,
+                height: tile,
+                depth_or_array_layers: layers,
+            },
+            mip_level_count: mips,
+            sample_count: 1,
+            dimension: wgpu::TextureDimension::D2,
+            format,
+            usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+            view_formats: &[],
+        });
+        let mut y = 0;
+        let mut size = tile;
+        for level in 0..mips {
+            for layer in 0..layers {
+                let mut packed = Vec::with_capacity((size * size * 4) as usize);
+                for row in 0..size {
+                    let start = (((y + row) as usize) * ((tile * 3) as usize)
+                        + (layer * size) as usize)
+                        * 4;
+                    packed.extend_from_slice(&data[start..start + (size * 4) as usize]);
+                }
+                queue.write_texture(
+                    wgpu::TexelCopyTextureInfo {
+                        texture: &tex,
+                        mip_level: level,
+                        origin: wgpu::Origin3d {
+                            x: 0,
+                            y: 0,
+                            z: layer,
+                        },
+                        aspect: wgpu::TextureAspect::All,
+                    },
+                    &packed,
+                    wgpu::TexelCopyBufferLayout {
+                        offset: 0,
+                        bytes_per_row: Some(size * 4),
+                        rows_per_image: Some(size),
+                    },
+                    wgpu::Extent3d {
+                        width: size,
+                        height: size,
+                        depth_or_array_layers: 1,
+                    },
+                );
+            }
+            y += size;
+            size = (size / 2).max(1);
+        }
+        let view = tex.create_view(&wgpu::TextureViewDescriptor {
+            dimension: Some(wgpu::TextureViewDimension::D2Array),
+            array_layer_count: Some(3),
+            ..Default::default()
+        });
+        Target {
+            _texture: tex,
+            view,
+        }
+    }
     fn buffer(device: &wgpu::Device, bytes: &[u8], usage: wgpu::BufferUsages) -> wgpu::Buffer {
         let zero = [0u8; 256];
         device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
@@ -111,6 +241,9 @@ mod web {
         ripples: wgpu::Buffer,
         atlas: Target,
         sampler: wgpu::Sampler,
+        material_color: Target,
+        material_detail: Target,
+        material_sampler: wgpu::Sampler,
         rects: wgpu::Buffer,
         states: wgpu::Buffer,
         raster: wgpu::RenderPipeline,
@@ -209,6 +342,29 @@ mod web {
                 },
             );
             let sampler = d.create_sampler(&wgpu::SamplerDescriptor::default());
+            let material_color = material_array(
+                d,
+                &gpu.queue,
+                1,
+                wgpu::TextureFormat::Rgba8UnormSrgb,
+                &[255, 255, 255, 255],
+            );
+            let material_detail = material_array(
+                d,
+                &gpu.queue,
+                1,
+                wgpu::TextureFormat::Rgba8Unorm,
+                &[128, 128, 255, 128],
+            );
+            let material_sampler = d.create_sampler(&wgpu::SamplerDescriptor {
+                address_mode_u: wgpu::AddressMode::Repeat,
+                address_mode_v: wgpu::AddressMode::Repeat,
+                address_mode_w: wgpu::AddressMode::Repeat,
+                mag_filter: wgpu::FilterMode::Linear,
+                min_filter: wgpu::FilterMode::Linear,
+                mipmap_filter: wgpu::FilterMode::Linear,
+                ..Default::default()
+            });
             let rects = buffer(
                 d,
                 bytemuck::cast_slice(&[[0.0f32, 0.0, 1.0, 1.0]]),
@@ -225,17 +381,18 @@ mod web {
             );
             let common = include_str!("../shaders/common.wgsl");
             let effects = include_str!("../shaders/material_effects.wgsl");
+            let surface = include_str!("../shaders/surface_material.wgsl");
             let gs = shader(
                 d,
                 &format!(
-                    "{common}\n{effects}\n{}",
+                    "{common}\n{effects}\n{surface}\n{}",
                     include_str!("../shaders/gbuffer.wgsl")
                 ),
             );
             let rs = shader(
                 d,
                 &format!(
-                    "{common}\n{effects}\n{}",
+                    "{common}\n{effects}\n{surface}\n{}",
                     include_str!("../shaders/raytrace.wgsl")
                 ),
             );
@@ -337,6 +494,9 @@ mod web {
                 ripples,
                 atlas,
                 sampler,
+                material_color,
+                material_detail,
+                material_sampler,
                 rects,
                 states,
                 raster,
@@ -376,6 +536,54 @@ mod web {
                     wgpu::BufferUsages::STORAGE,
                 );
             }
+        }
+        pub fn upload_material_textures(
+            &mut self,
+            color: &[u8],
+            detail: &[u8],
+            width: u32,
+            height: u32,
+        ) -> Result<(), RenderError> {
+            if width == 0 || width % 3 != 0 {
+                return Err(RenderError::Asset(
+                    "invalid material texture dimensions".into(),
+                ));
+            }
+            let tile = width / 3;
+            if !tile.is_power_of_two()
+                || tile > 1024
+                || height
+                    != tile
+                        .checked_mul(2)
+                        .and_then(|v| v.checked_sub(1))
+                        .unwrap_or(0)
+            {
+                return Err(RenderError::Asset(
+                    "invalid material texture dimensions".into(),
+                ));
+            }
+            let len = (width as usize)
+                .checked_mul(height as usize)
+                .and_then(|v| v.checked_mul(4))
+                .ok_or_else(|| RenderError::Asset("material byte size overflow".into()))?;
+            if color.len() != len || detail.len() != len {
+                return Err(RenderError::Asset("invalid material byte length".into()));
+            }
+            self.material_color = upload_material_array(
+                &self.gpu.device,
+                &self.gpu.queue,
+                color,
+                tile,
+                wgpu::TextureFormat::Rgba8UnormSrgb,
+            );
+            self.material_detail = upload_material_array(
+                &self.gpu.device,
+                &self.gpu.queue,
+                detail,
+                tile,
+                wgpu::TextureFormat::Rgba8Unorm,
+            );
+            Ok(())
         }
         pub fn upload_sign_atlas(
             &mut self,
@@ -499,6 +707,9 @@ mod web {
                     entry(5, wgpu::BindingResource::Sampler(&self.sampler)),
                     be(6, &self.rects),
                     be(7, &self.ripples),
+                    te(8, &self.material_color),
+                    te(9, &self.material_detail),
+                    entry(10, wgpu::BindingResource::Sampler(&self.material_sampler)),
                 ],
             });
             let rb = d.create_bind_group(&wgpu::BindGroupDescriptor {
@@ -520,6 +731,9 @@ mod web {
                     te(1, &self.images.depth),
                     entry(2, wgpu::BindingResource::TextureView(&self.atlas.view)),
                     entry(3, wgpu::BindingResource::Sampler(&self.sampler)),
+                    te(4, &self.material_color),
+                    te(5, &self.material_detail),
+                    entry(6, wgpu::BindingResource::Sampler(&self.material_sampler)),
                 ],
             });
             let ro = d.create_bind_group(&wgpu::BindGroupDescriptor {

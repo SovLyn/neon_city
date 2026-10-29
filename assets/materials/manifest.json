@@ -1,0 +1,464 @@
+{
+  "license": {
+    "name": "CC0 1.0 Universal",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "evidence": "https://polyhaven.com/license",
+    "evidence_summary": "Poly Haven states all site textures are CC0; attribution is not required.",
+    "statement": "Source and processed assets are redistributed under CC0 1.0."
+  },
+  "output": {
+    "dimensions": "512x512 per map",
+    "resampling": "Pillow LANCZOS",
+    "normal_format": "Tangent-space OpenGL (+Y), RGB linear data; source nor_gl, no channel flip",
+    "roughness_format": "8-bit grayscale, linear data",
+    "color_format": "RGB, sRGB",
+    "packed_color": {
+      "file": "materials-color.png",
+      "dimensions": [
+        1536,
+        1023
+      ],
+      "layout": "RGBA mip strip. Each mip row has concrete/asphalt/metal horizontally at x=layer*size; unused pixels zero. RGB sRGB; A=255.",
+      "sha256": "389a0251e3df5e1238864d69221cdb0c252409f6c5e1539465eeebca26e2f95a",
+      "bytes": 1818062
+    },
+    "packed_detail": {
+      "file": "materials-detail.png",
+      "dimensions": [
+        1536,
+        1023
+      ],
+      "layout": "RGBA mip strip. Each mip row has concrete/asphalt/metal horizontally at x=layer*size; unused pixels zero. RGB=OpenGL/+Y normal data, A=linear roughness; raw non-premultiplied RGBA.",
+      "sha256": "75d6005f31c18935e44344a8da9cb62b076cddc81d9875ef13157ea1176112bb",
+      "bytes": 2391590
+    },
+    "total_png_bytes": 7012189,
+    "packed_dimensions": [
+      1536,
+      1023
+    ],
+    "mip_count": 10,
+    "mip_filtering": "Each level averages 2x2 samples from previous level; color averages in linear light then encodes sRGB; normal vectors decode to [-1,1], average and renormalize; roughness averaged linearly.",
+    "mip_levels": [
+      {
+        "level": 0,
+        "size": 512,
+        "y_offset": 0,
+        "height": 512,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 512
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 512,
+            "width": 512
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 1024,
+            "width": 512
+          }
+        ]
+      },
+      {
+        "level": 1,
+        "size": 256,
+        "y_offset": 512,
+        "height": 256,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 256
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 256,
+            "width": 256
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 512,
+            "width": 256
+          }
+        ]
+      },
+      {
+        "level": 2,
+        "size": 128,
+        "y_offset": 768,
+        "height": 128,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 128
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 128,
+            "width": 128
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 256,
+            "width": 128
+          }
+        ]
+      },
+      {
+        "level": 3,
+        "size": 64,
+        "y_offset": 896,
+        "height": 64,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 64
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 64,
+            "width": 64
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 128,
+            "width": 64
+          }
+        ]
+      },
+      {
+        "level": 4,
+        "size": 32,
+        "y_offset": 960,
+        "height": 32,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 32
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 32,
+            "width": 32
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 64,
+            "width": 32
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "size": 16,
+        "y_offset": 992,
+        "height": 16,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 16
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 16,
+            "width": 16
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 32,
+            "width": 16
+          }
+        ]
+      },
+      {
+        "level": 6,
+        "size": 8,
+        "y_offset": 1008,
+        "height": 8,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 8
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 8,
+            "width": 8
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 16,
+            "width": 8
+          }
+        ]
+      },
+      {
+        "level": 7,
+        "size": 4,
+        "y_offset": 1016,
+        "height": 4,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 4
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 4,
+            "width": 4
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 8,
+            "width": 4
+          }
+        ]
+      },
+      {
+        "level": 8,
+        "size": 2,
+        "y_offset": 1020,
+        "height": 2,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 2
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 2,
+            "width": 2
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 4,
+            "width": 2
+          }
+        ]
+      },
+      {
+        "level": 9,
+        "size": 1,
+        "y_offset": 1022,
+        "height": 1,
+        "layers": [
+          {
+            "layer": 0,
+            "material": "concrete",
+            "x_offset": 0,
+            "width": 1
+          },
+          {
+            "layer": 1,
+            "material": "asphalt",
+            "x_offset": 1,
+            "width": 1
+          },
+          {
+            "layer": 2,
+            "material": "metal",
+            "x_offset": 2,
+            "width": 1
+          }
+        ]
+      }
+    ],
+    "runtime_png_bytes": 4209652
+  },
+  "materials": {
+    "concrete": {
+      "asset_id": "concrete_wall_001",
+      "title": "Concrete Wall 001",
+      "source_page": "https://polyhaven.com/a/concrete_wall_001",
+      "license": "CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence_url": "https://polyhaven.com/license",
+      "tile_size_m": [
+        1.5,
+        1.5
+      ],
+      "tile_size_evidence": "Poly Haven API /info dimensions field (metres): https://api.polyhaven.com/info/concrete_wall_001",
+      "maps": {
+        "color": {
+          "output": "concrete-color.png",
+          "output_sha256": "9a9b61b1046a029cf13595729d6b9c8091dfca2c0a8193b1fd69aa888fed3fea",
+          "output_bytes": 188409,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_diff_1k.jpg",
+          "source_sha256": "c3c936da86d57997d9fc4022371c3798c8d438aeecb8f41546104da6d3947c02",
+          "source_bytes": 79320,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "sRGB"
+        },
+        "roughness": {
+          "output": "concrete-roughness.png",
+          "output_sha256": "b556e3cdc91558201dc52932237f908cf7f01262ae8ebc94e60e721a55ec1814",
+          "output_bytes": 128984,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_rough_1k.jpg",
+          "source_sha256": "d0964c690a8de99fb4f6657e0d3474eea9f9f293d080f4e5c871a55857d9448b",
+          "source_bytes": 156479,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        },
+        "normal": {
+          "output": "concrete-normal.png",
+          "output_sha256": "38a372289d5edfbe573fc1d76266da569dc9727d0b4473bbd63970e6110a463a",
+          "output_bytes": 366794,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_nor_gl_1k.jpg",
+          "source_sha256": "6f10711d123c8dff26375555196eae9e16d874c137acdacd44d1ba90168b6d46",
+          "source_bytes": 179270,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        }
+      },
+      "average_linear_luminance": {
+        "value": 0.27445437,
+        "method": "Decode each 8-bit sRGB channel with IEC 61966-2-1 transfer function; arithmetic mean per linear channel; Rec.709 luminance 0.2126R+0.7152G+0.0722B."
+      }
+    },
+    "asphalt": {
+      "asset_id": "worn_asphalt",
+      "title": "Worn Asphalt",
+      "source_page": "https://polyhaven.com/a/worn_asphalt",
+      "license": "CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence_url": "https://polyhaven.com/license",
+      "tile_size_m": [
+        2.0,
+        2.0
+      ],
+      "tile_size_evidence": "Poly Haven API /info dimensions field (metres): https://api.polyhaven.com/info/worn_asphalt",
+      "maps": {
+        "color": {
+          "output": "asphalt-color.png",
+          "output_sha256": "55011b80c0ccfbc050afcd89a807ac12c8b1089b94be5797f7c2722815f3096d",
+          "output_bytes": 474462,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_asphalt/worn_asphalt_diff_1k.jpg",
+          "source_sha256": "3bf71ad290730092ad2aee85e246b2e43318bc1f32261826ba91250e815b5f72",
+          "source_bytes": 914719,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "sRGB"
+        },
+        "roughness": {
+          "output": "asphalt-roughness.png",
+          "output_sha256": "daf32eac2637c304db231df6d4abd09bd63dbdd184f0e6b33e50e14e19bc81f1",
+          "output_bytes": 118005,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_asphalt/worn_asphalt_rough_1k.jpg",
+          "source_sha256": "ad63ece01a94cb43f57a9d628fa9d28a560bffc8878749998ad3601831ab843f",
+          "source_bytes": 480395,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        },
+        "normal": {
+          "output": "asphalt-normal.png",
+          "output_sha256": "09073c6aaf6b631c117ef16487470a2e0b334caed2e46b4e4f9eee3022df75e9",
+          "output_bytes": 627771,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_asphalt/worn_asphalt_nor_gl_1k.jpg",
+          "source_sha256": "5f835d192dac296674229a763553f356f5e206bb7f6d812bca5b0f38fc5302a4",
+          "source_bytes": 1503498,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        }
+      },
+      "average_linear_luminance": {
+        "value": 0.04534131,
+        "method": "Decode each 8-bit sRGB channel with IEC 61966-2-1 transfer function; arithmetic mean per linear channel; Rec.709 luminance 0.2126R+0.7152G+0.0722B."
+      }
+    },
+    "metal": {
+      "asset_id": "rusty_metal_05",
+      "title": "Rusty Metal 05",
+      "source_page": "https://polyhaven.com/a/rusty_metal_05",
+      "license": "CC0 1.0 Universal",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence_url": "https://polyhaven.com/license",
+      "tile_size_m": [
+        1.25,
+        1.25
+      ],
+      "tile_size_evidence": "Poly Haven API /info dimensions field (metres): https://api.polyhaven.com/info/rusty_metal_05",
+      "maps": {
+        "color": {
+          "output": "metal-color.png",
+          "output_sha256": "b815defc71839770dfeb70f0ddc6c9c900e672f83442b1f89dc15df294255435",
+          "output_bytes": 469796,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_05/rusty_metal_05_diff_1k.jpg",
+          "source_sha256": "c48e9064ef1a1a1f745c605669adfac9391980c31a68f4f06808a2ab25aeaca8",
+          "source_bytes": 815155,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "sRGB"
+        },
+        "roughness": {
+          "output": "metal-roughness.png",
+          "output_sha256": "e916472b0c60ff3ae04ee42e94ee1547dfa9a3929c6189c2ff424d2f6e8d3b7a",
+          "output_bytes": 124009,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_05/rusty_metal_05_rough_1k.jpg",
+          "source_sha256": "8b68979e2e2a75fedb366564db09873346895853bc70b0e441757900457c68bf",
+          "source_bytes": 430648,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        },
+        "normal": {
+          "output": "metal-normal.png",
+          "output_sha256": "f9c9994c6aa064ac5fe42181f4fc378eee7b348e29382cb97cfb5820fedd4c6a",
+          "output_bytes": 304307,
+          "source_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rusty_metal_05/rusty_metal_05_nor_gl_1k.jpg",
+          "source_sha256": "065502cb4ab8f403ac59b42c081a0833277842f71032d692d387f8b3ee21ae97",
+          "source_bytes": 594099,
+          "source_resolution": "1K upstream JPEG",
+          "processing": "Downloaded official Poly Haven JPEG; converted to RGB/grayscale; LANCZOS resized to 512x512; optimized PNG.",
+          "color_space": "linear"
+        }
+      },
+      "average_linear_luminance": {
+        "value": 0.06869006,
+        "method": "Decode each 8-bit sRGB channel with IEC 61966-2-1 transfer function; arithmetic mean per linear channel; Rec.709 luminance 0.2126R+0.7152G+0.0722B."
+      }
+    }
+  }
+}

@@ -276,7 +276,34 @@ fn scene_regressions_and_catalog_mapping() {
         135,
         "original 38 meshes plus four facade batches per building and road paint"
     );
-    assert_eq!(scene.materials.len(), 54);
+    assert_eq!(scene.materials.len(), 55);
+    let texture_class = |material: &neon_city::contract::MaterialGpu| (material.flags >> 8) & 0b11;
+    assert_eq!(texture_class(&scene.materials[0]), 1);
+    assert_eq!(texture_class(&scene.materials[2]), 2);
+    assert_eq!(texture_class(&scene.materials[3]), 1);
+    for id in [9usize, 10, 11, 17, 18] {
+        assert_eq!(texture_class(&scene.materials[id]), 3);
+    }
+    for id in [
+        1usize, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+        36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
+    ] {
+        assert_eq!(
+            texture_class(&scene.materials[id]),
+            0,
+            "excluded material {id}"
+        );
+    }
+    assert_eq!(scene.materials[54].base_color, [0.055, 0.065, 0.075]);
+    assert_eq!(
+        scene
+            .instances
+            .iter()
+            .filter(|i| i.mesh == 3)
+            .map(|i| i.material)
+            .collect::<std::collections::BTreeSet<_>>(),
+        std::collections::BTreeSet::from([54])
+    );
     assert_eq!(scene.lights.len(), 44);
     assert_eq!(scene.signs.len(), 24);
     let puddles: Vec<_> = scene.instances.iter().filter(|i| i.material == 1).collect();

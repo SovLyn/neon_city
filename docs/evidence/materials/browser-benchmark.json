@@ -1,0 +1,70 @@
+{
+  "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "method": "Headless Chromium; stationary default camera; live animation. RAF interval timings are NOT GPU timings.",
+  "warmupSeconds": 10,
+  "requestedSampleSeconds": 60,
+  "tiers": [
+    {
+      "tier": "Balanced",
+      "samples": 2353,
+      "warmupSeconds": 10.09,
+      "actualSampleSeconds": 60.00240000000001,
+      "medianIntervalMs": 24.599999999998545,
+      "p95IntervalMs": 32.69999999999709,
+      "p99IntervalMs": 32.80000000000291,
+      "meanIntervalMs": 25.500382490437744,
+      "meanCpuMs": 0.45728856722851585,
+      "finalMetrics": {
+        "frame": 2759,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 24.5,
+        "cpu_ms": 0.6000000238418579,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 70.14508819580078,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      }
+    },
+    {
+      "tier": "Performance",
+      "samples": 5229,
+      "warmupSeconds": 10.159,
+      "actualSampleSeconds": 60.00509999999999,
+      "medianIntervalMs": 8.30000000000291,
+      "p95IntervalMs": 16.40000000000873,
+      "p99IntervalMs": 18.69999999999709,
+      "meanIntervalMs": 11.475444635685598,
+      "meanCpuMs": 0.417728055364704,
+      "finalMetrics": {
+        "frame": 8871,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 8.10000000000582,
+        "cpu_ms": 0.3999999761581421,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 140.3778533935547,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Performance"
+      }
+    }
+  ]
+}

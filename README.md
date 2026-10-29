@@ -10,6 +10,8 @@ Rust + wgpu WebGPU browser project. The native target is used for CPU-side tests
 
 The atlas and font are committed runtime assets. Python 3.13, Pillow 12.1.1 and fonttools 4.61.1 are only needed to regenerate/verify them; see [assets/README.md](assets/README.md). They are not Cargo dependencies. The bundled Noto Sans JP subset is under SIL OFL 1.1; see `assets/licenses/` and the asset documentation for provenance and redistribution terms.
 
+Concrete, asphalt and metal surface textures are derived from **Poly Haven CC0 assets** and bundled locally (no runtime hotlinks). Source URLs, hashes and preparation instructions are recorded in [assets/materials/README.md](assets/materials/README.md) and its manifest. Surface color, normal and roughness maps are shared by raster shading and BVH hit shading.
+
 ## Run and build
 
 ```sh
@@ -42,7 +44,7 @@ In the repository settings, set **Settings → Pages → Build and deployment �
 - **Space**: pause/resume simulation. `?paused=1` starts paused.
 - **Q**: toggle Balanced/Performance quality.
 
-Options are query parameters; e.g. `?seed=123&camera=showcase&bloom=0&atmosphere=0&time=12&paused=1`. `seed` accepts decimal or `0x` hexadecimal. `camera=showcase`, `camera=side`, and `camera=reflection` select preset starts (other values use the default). The reflection preset looks downward for off-screen reflection inspection. `debug` accepts `albedo`, `normal`, `roughness`, `depth`, `motion`, `reflection`, `ao`, `shadow`, `history`, or `bvh`; unknown values select final view. `bloom=0` and `atmosphere=0` disable those effects; otherwise enabled. `time` sets a finite nonnegative starting simulation time in seconds. Invalid seed/time values fall back to defaults.
+Options are query parameters; e.g. `?seed=123&camera=showcase&bloom=0&atmosphere=0&time=12&paused=1`. `seed` accepts decimal or `0x` hexadecimal. `camera=showcase`, `camera=side`, and `camera=reflection` select preset starts (other values use the default). The reflection preset looks downward for off-screen reflection inspection. `debug` accepts `albedo`, `normal`, `roughness`, `depth`, `motion`, `reflection`, `ao`, `shadow`, `history`, or `bvh`; unknown values select final view. `bloom=0` and `atmosphere=0` disable those effects; otherwise enabled. `textures=0` disables the photographic surface textures in both raster and BVH shading and skips their downloads; use it with `time=3&paused=1&bloom=0` for a matched material comparison. `time` sets a finite nonnegative starting simulation time in seconds. Invalid seed/time values fall back to defaults.
 
 ## Browser evidence tools
 

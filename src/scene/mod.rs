@@ -17,6 +17,9 @@ const AWNING_CYAN: u32 = 48;
 const ROAD_PAINT: u32 = 49;
 const PRACTICAL_LAMP: u32 = 50;
 const CAR_PAINT_START: u32 = 51;
+const DRONE_MATERIAL: u32 = 54;
+const MATERIAL_TEXTURE_CLASS_MASK: u32 = 0b11 << 8;
+const MATERIAL_TEXTURE_CLASS_SHIFT: u32 = 8;
 
 pub struct SceneBuilder {
     config: SceneConfig,
@@ -449,7 +452,7 @@ impl SceneBuilder {
             let id = add_instance(
                 &mut self.scene,
                 DRONE_MESH,
-                0,
+                DRONE_MATERIAL,
                 Vec3::new(
                     -6.0 + i as f32 * 4.0,
                     8.0 + (i % 2) as f32 * 2.0,
@@ -935,9 +938,12 @@ fn materials() -> Vec<MaterialGpu> {
         m[index] = material(color, 0.0, roughness, 0.0, 0, 0);
     }
     m[0] = material([0.26, 0.30, 0.35], 0.0, 0.72, 0.0, 0, 0);
+    m[0].flags = texture_class(1); // Concrete building shell.
     m[1] = material([0.035, 0.045, 0.055], 0.0, 0.08, 0.0, 1, 0);
     m[2] = material([0.07, 0.08, 0.09], 0.0, 0.32, 0.0, 2, 0);
+    m[2].flags = texture_class(2); // Asphalt.
     m[3] = material([0.12, 0.12, 0.11], 0.0, 0.78, 0.0, 3, 0);
+    m[3].flags = texture_class(1); // Concrete sidewalk.
     m[4] = material([0.12, 0.20, 0.24], 0.0, 0.08, 0.0, 4, 0);
     m[4].opacity = 0.22;
     m[4].ior = 1.45;
@@ -967,11 +973,19 @@ fn materials() -> Vec<MaterialGpu> {
         surface.emission = emission;
         m.push(surface);
     }
+    // Restrained metal assignments: HVAC, drain pipe, cable and junction/conduit.
+    for index in [9usize, 10, 11, 17, 18] {
+        m[index].flags = texture_class(3);
+    }
     // Cars no longer inherit the brighter concrete facade material.
     for color in [[0.28, 0.035, 0.09], [0.025, 0.16, 0.21], [0.19, 0.12, 0.29]] {
         m.push(material(color, 0.25, 0.58, 0.0, 0, 0));
     }
+    m.push(material([0.055, 0.065, 0.075], 0.35, 0.48, 0.0, 0, 0)); // Untextured drone proxy.
     m
+}
+fn texture_class(class: u32) -> u32 {
+    (class << MATERIAL_TEXTURE_CLASS_SHIFT) & MATERIAL_TEXTURE_CLASS_MASK
 }
 fn material(
     color: [f32; 3],

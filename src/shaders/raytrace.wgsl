@@ -15,6 +15,9 @@ struct RayFrame {
 @group(1) @binding(1) var depths: texture_depth_2d;
 @group(1) @binding(2) var sign_atlas: texture_2d<f32>;
 @group(1) @binding(3) var sign_sampler: sampler;
+@group(1) @binding(4) var material_color: texture_2d_array<f32>;
+@group(1) @binding(5) var material_detail: texture_2d_array<f32>;
+@group(1) @binding(6) var material_sampler: sampler;
 @group(2) @binding(0) var reflection_out: texture_storage_2d<rgba16float, write>;
 @group(2) @binding(1) var auxiliary_out: texture_storage_2d<rgba16float, write>;
 
@@ -179,13 +182,17 @@ fn main(@builtin(global_invocation_id) id: vec3<u32>) {
             let m=mo+hit.material*16u;
             var em=sv3(m+4u); var multiplier=vec4<f32>(1.0,1.0,1.0,0.0); var params=vec4<f32>(0.0);
             if (hit.material*2u+1u<arrayLength(&material_states)) { multiplier=material_states[hit.material*2u]; params=material_states[hit.material*2u+1u]; }
+            let hitpos=origin+dir*hit.t;
+            // Approximate ray-cone footprint from travel distance and full image height.
+            let world_footprint=(hit.t+length(hitpos-frame.camera.xyz))/f32(max(full.y,1u));
+            let surface=material_surface(hitpos,hit.normal,sv3(m),sf(m+7u),scene[m+12u],scene[m+15u],world_footprint,material_color,material_detail,material_sampler);
+            hit.normal=surface.normal;
             let region=scene[m+13u];
             if (scene[m+12u]==5u && region<arrayLength(&sign_rects)) { em*=sign_emission(sign_atlas,sign_sampler,sign_rects[region],hit.uv,scene[m+14u],multiplier,params); }
             else { em*=multiplier.rgb; }
-            color=em+sv3(m)*vec3<f32>(.22,.28,.40)*(.65+.35*max(hit.normal.y,0.));
+            color=em+surface.albedo*vec3<f32>(.22,.28,.40)*(.65+.35*max(hit.normal.y,0.));
             let ds=arrayLength(&dynamic);
             if (ds>=16u && section_ok(dynamic[6u],dynamic[7u],16u,ds)) {
-                let hitpos=origin+dir*hit.t;
                 var scores=array<f32,4>(0.0,0.0,0.0,0.0); var chosen=array<u32,4>(0u,0u,0u,0u);
                 for (var k=0u;k<min(dynamic[7u],64u);k++) {
                     let l=dynamic[6u]+k*16u; let delta=vec3<f32>(df(l),df(l+1u),df(l+2u))-hitpos; let dist2=dot(delta,delta); let range=df(l+3u);
@@ -200,7 +207,7 @@ fn main(@builtin(global_invocation_id) id: vec3<u32>) {
                     let score=peak*intensity*falloff*falloff*cone*max(dot(hit.normal,ld),0.0)/(1.0+dist2);
                     for (var j=0u;j<4u;j++) { if (score>scores[j]) { for (var s=3u;s>j;s--) { scores[s]=scores[s-1u]; chosen[s]=chosen[s-1u]; } scores[j]=score; chosen[j]=k; break; } }
                 }
-                for (var j=0u;j<4u;j++) { if (scores[j]>0.0) { let l=dynamic[6u]+chosen[j]*16u; let rgb=vec3<f32>(df(l+8u),df(l+9u),df(l+10u)); color+=sv3(m)*rgb/max(max(max(rgb.x,rgb.y),rgb.z),0.0001)*scores[j]; } }
+                for (var j=0u;j<4u;j++) { if (scores[j]>0.0) { let l=dynamic[6u]+chosen[j]*16u; let rgb=vec3<f32>(df(l+8u),df(l+9u),df(l+10u)); color+=surface.albedo*rgb/max(max(max(rgb.x,rgb.y),rgb.z),0.0001)*scores[j]; } }
             }
         }
     }

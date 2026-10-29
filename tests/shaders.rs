@@ -4,6 +4,7 @@ fn gbuffer_uses_explicit_lod_for_conditional_atlas_sampling() {
     assert!(!source.contains("textureSample("));
     assert!(source.contains("sign_emission("));
     assert!(include_str!("../src/shaders/material_effects.wgsl").contains("textureSampleLevel("));
+    assert!(source.contains("material_surface("));
 }
 
 #[test]
@@ -32,19 +33,21 @@ fn shaders_validate() {
         (
             "raytrace",
             format!(
-                "{}\n{}\n{}",
+                "{}\n{}\n{}\n{}",
                 include_str!("../src/shaders/common.wgsl"),
                 include_str!("../src/shaders/material_effects.wgsl"),
-                include_str!("../src/shaders/raytrace.wgsl")
+                include_str!("../src/shaders/raytrace.wgsl"),
+                include_str!("../src/shaders/surface_material.wgsl")
             ),
         ),
         (
             "gbuffer",
             format!(
-                "{}\n{}\n{}",
+                "{}\n{}\n{}\n{}",
                 include_str!("../src/shaders/common.wgsl"),
                 include_str!("../src/shaders/material_effects.wgsl"),
-                include_str!("../src/shaders/gbuffer.wgsl")
+                include_str!("../src/shaders/gbuffer.wgsl"),
+                include_str!("../src/shaders/surface_material.wgsl")
             ),
         ),
         (
