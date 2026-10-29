@@ -74,9 +74,14 @@ fn shop_interior(w:vec3<f32>, n:vec3<f32>, v:vec3<f32>)->vec3<f32> {
  let shelf=1.-.65*(1.-smoothstep(.015,.035,abs(uv.y-.36)));
  let cabinet=1.-.4*(1.-smoothstep(.02,.045,abs(uv.x-.68)));
  let variation=.5+.5*sin(dot(cell,vec2<f32>(1.7,3.1)));
- let room=mix(vec3<f32>(.12,.075,.045),vec3<f32>(.055,.10,.13),variation);
+ let room=mix(vec3<f32>(.28,.15,.065),vec3<f32>(.075,.19,.26),variation);
  let ceiling=.65+.35*smoothstep(.2,.85,uv.y);
  return mix(vec3<f32>(.012,.016,.02),room*shelf*cabinet*ceiling,opening);
+}
+// Analytic night sky, also used for BVH ray misses (not a reflection substitute).
+fn night_sky(direction:vec3<f32>)->vec3<f32> {
+ let horizon=pow(1.-clamp(direction.y,0.,1.),4.);
+ return mix(vec3<f32>(.012,.022,.055),vec3<f32>(.075,.035,.105),horizon);
 }
 @fragment fn lighting(i:VOut)->Lit {
  // Debug reads only its source; no direct lighting, fog, shafts or bloom seed work.
@@ -88,7 +93,7 @@ fn shop_interior(w:vec3<f32>, n:vec3<f32>, v:vec3<f32>)->vec3<f32> {
  // AO is really traced in this version; shadow tracing is not implemented.
  // The remaining aux channels are NOT shadow visibility, validity bits or light IDs.
  let a=textureLoad(auxiliary,coord(i.uv,textureDimensions(auxiliary)),0);
- var o:Lit; o.seed=vec4<f32>(0); var c=vec3<f32>(.006,.009,.025);
+ var o:Lit; o.seed=vec4<f32>(0); var c=night_sky(safe_normalize(world(i.uv,.9999)-frame.camera_time.xyz));
  if(z<.99999) {
   let w=world(i.uv,z); let n=safe_normalize(nr.xyz); let v=safe_normalize(frame.camera_time.xyz-w);
   let rough=clamp(nr.w,.04,1.); var f0=mix(vec3<f32>(.04),b.rgb,b.a);
@@ -106,7 +111,9 @@ fn shop_interior(w:vec3<f32>, n:vec3<f32>, v:vec3<f32>)->vec3<f32> {
   let fresnel=f0+(1-f0)*pow(1.-max(dot(n,v),0.),5.);
   var surface_scale=vec3<f32>(1);
   if(glazing){surface_scale=opacity*(1-fresnel);}
-  c=b.rgb*vec3<f32>(.055,.065,.105)*clamp(a.r,0.,1.)*surface_scale;
+  // Broad cool skylight reveals unlit architecture without lifting emissive signs.
+  let sky_fill=vec3<f32>(.22,.28,.40)*(.65+.35*max(n.y,0.));
+  c=b.rgb*sky_fill*clamp(a.r,0.,1.)*surface_scale;
   for(var j=0u;j<min(min(frame.counts.x,64u),arrayLength(&lights));j++) {
    let light=lights[j]; let delta=light.position-w; let dist2=dot(delta,delta);
    // Reject before sqrt, normalization, attenuation powers or BRDF work.
@@ -141,7 +148,7 @@ fn shop_interior(w:vec3<f32>, n:vec3<f32>, v:vec3<f32>)->vec3<f32> {
   let distance=length(w-frame.camera_time.xyz); let low=exp(-max(w.y,0.)*1.6);
   if(frame.effects.y!=0u) {
   let fog=min(.38,1-exp(-distance*(.0015+.012*low)));
-  c=mix(c,vec3<f32>(.025,.035,.065),fog);
+  c=mix(c,vec3<f32>(.045,.055,.10),fog);
   // Two finite distant volumetric cones; integrate only as far as opaque depth.
   let ray=safe_normalize(w-frame.camera_time.xyz); var shafts=vec3<f32>(0);
   for(var s=0u;s<12u;s++) {

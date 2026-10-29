@@ -1,0 +1,70 @@
+{
+  "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+  "method": "Headless Chromium; stationary default camera; live animation. RAF interval timings are NOT GPU timings.",
+  "warmupSeconds": 10,
+  "requestedSampleSeconds": 60,
+  "tiers": [
+    {
+      "tier": "Balanced",
+      "samples": 9415,
+      "warmupSeconds": 10.242,
+      "actualSampleSeconds": 60.00559999999964,
+      "medianIntervalMs": 8.299999999988358,
+      "p95IntervalMs": 8.400000000001455,
+      "p99IntervalMs": 8.5,
+      "meanIntervalMs": 6.373404142326037,
+      "meanCpuMs": 0.4040785979540881,
+      "finalMetrics": {
+        "frame": 11038,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 8.30000000000291,
+        "cpu_ms": 0.5,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 70.40319061279297,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      }
+    },
+    {
+      "tier": "Performance",
+      "samples": 14368,
+      "warmupSeconds": 10.359,
+      "actualSampleSeconds": 60.00140000000001,
+      "medianIntervalMs": 4.19999999999709,
+      "p95IntervalMs": 4.30000000000291,
+      "p99IntervalMs": 4.30000000000291,
+      "meanIntervalMs": 4.176043986636972,
+      "meanCpuMs": 0.41114977726044927,
+      "finalMetrics": {
+        "frame": 27869,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 4.100000000005821,
+        "cpu_ms": 0.30000001192092896,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 140.8220977783203,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Performance"
+      }
+    }
+  ]
+}

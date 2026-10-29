@@ -98,7 +98,7 @@ fn cached_composite_geometry_is_bounded_and_repeatable() {
         let instances: Vec<_> = scene
             .instances
             .iter()
-            .filter(|i| i.material == 9 + category)
+            .filter(|i| (4..14).contains(&i.mesh) && i.material == 9 + category)
             .collect();
         assert_eq!(instances.len(), 48);
         assert!(
@@ -119,6 +119,140 @@ fn cached_composite_geometry_is_bounded_and_repeatable() {
 }
 
 #[test]
+fn facade_windows_canopies_and_road_paint_are_real_static_geometry() {
+    let scene = build(SceneConfig::default().seed);
+    let bounds = |i: &neon_city::contract::InstanceDesc| {
+        scene.meshes[i.mesh as usize].vertices.iter().fold(
+            (Vec3::splat(f32::INFINITY), Vec3::splat(f32::NEG_INFINITY)),
+            |(lo, hi), v| {
+                let p = i
+                    .world_from_local
+                    .transform_point3(Vec3::from_array(v.position));
+                (lo.min(p), hi.max(p))
+            },
+        )
+    };
+    let mut panes = [0; 3];
+    for i in scene
+        .instances
+        .iter()
+        .filter(|i| (43..=48).contains(&i.material) && !(i.material == 46 && i.mesh == 0))
+    {
+        assert_eq!(i.flags, 0, "new architecture participates in static BVH");
+        let (lo, hi) = bounds(i);
+        assert!(lo.x.abs().max(hi.x.abs()) < 12.45);
+        assert!(lo.x.abs().min(hi.x.abs()) > 10.7);
+        if i.material <= 45 {
+            panes[i.material as usize - 43] += scene.meshes[i.mesh as usize].indices.len() / 36;
+            assert!(lo.y >= 7.3 && hi.y < 19.0);
+            let building = scene
+                .instances
+                .iter()
+                .find(|b| {
+                    b.mesh == 0
+                        && b.material == 0
+                        && b.flags == 0
+                        && b.world_from_local.w_axis.x.signum()
+                            == i.world_from_local.w_axis.x.signum()
+                        && (b.world_from_local.w_axis.z - i.world_from_local.w_axis.z).abs() < 0.001
+                })
+                .unwrap();
+            assert!(hi.y < bounds(building).1.y, "windows stay below the roof");
+        }
+        if (47..=48).contains(&i.material) {
+            assert!(lo.y > 3.4 && hi.y < 4.3);
+        }
+        // Test actual mesh bounds, not unit-box assumptions on combined batches.
+        for sign in &scene.signs {
+            let si = &scene.instances[sign.instance as usize];
+            if si.world_from_local.w_axis.x.signum() != i.world_from_local.w_axis.x.signum() {
+                continue;
+            }
+            let (sl, sh) = bounds(si);
+            assert!(
+                !(lo.y < sh.y + 0.18
+                    && hi.y > sl.y - 0.18
+                    && lo.z < sh.z + 0.18
+                    && hi.z > sl.z - 0.18)
+            );
+        }
+    }
+    assert!(panes[0] > 0 && panes[2] > 0 && panes[1] > panes[2]);
+    assert_eq!(
+        scene.instances.iter().filter(|i| i.material == 47).count(),
+        24
+    );
+    assert_eq!(
+        scene.instances.iter().filter(|i| i.material == 48).count(),
+        24
+    );
+    assert_eq!(scene.materials[43].emission, [0.0; 3]);
+    assert!(scene.materials[44].emission[2] > scene.materials[44].emission[0]);
+    let paint = scene.instances.iter().find(|i| i.material == 49).unwrap();
+    assert_eq!(paint.flags, 0);
+    let mesh = &scene.meshes[paint.mesh as usize];
+    assert!(mesh.indices.len() / 36 > 30, "dashes and two crossings");
+    for part in mesh.vertices.chunks_exact(24) {
+        let lo = part.iter().fold(Vec3::splat(f32::INFINITY), |a, v| {
+            a.min(Vec3::from_array(v.position))
+        });
+        let hi = part.iter().fold(Vec3::splat(f32::NEG_INFINITY), |a, v| {
+            a.max(Vec3::from_array(v.position))
+        });
+        let cx = (lo.x + hi.x) * 0.5;
+        let surface = if (1.0..3.2).contains(&cx.abs()) {
+            0.03
+        } else {
+            -0.005
+        };
+        assert!((lo.y - surface).abs() < 1e-6 && hi.y > surface);
+        assert!(lo.x > -6.8 && hi.x < 6.8);
+    }
+    for light in &scene.lights[..4] {
+        let source = &scene.instances[light.source_id as usize];
+        assert_eq!(source.material, 50);
+        assert_eq!(source.flags, 0);
+        assert!(
+            source
+                .world_from_local
+                .w_axis
+                .truncate()
+                .distance(Vec3::from_array(light.position))
+                < 0.2
+        );
+        assert_eq!(light.intensity, 90.0);
+        assert_eq!(light.range, 22.0);
+    }
+    assert!(scene.lights.len() <= 64);
+    let mut bvh = neon_city::accel::BvhBuild::new(&scene).unwrap();
+    let packed = loop {
+        if let BuildPoll::Ready(packed) = bvh.step(100_000).unwrap() {
+            break packed;
+        }
+    };
+    let mut material_counts = vec![0usize; scene.materials.len()];
+    let start = packed.words[6] as usize;
+    let count = packed.words[7] as usize;
+    assert!(count < 100_000);
+    for triangle in packed.words[start..start + count * 32].chunks_exact(32) {
+        material_counts[triangle[30] as usize] += 1;
+    }
+    for material in 43..=50 {
+        let expected: usize = scene
+            .instances
+            .iter()
+            .filter(|i| i.material == material as u32)
+            .map(|i| scene.meshes[i.mesh as usize].indices.len() / 3)
+            .sum();
+        assert!(expected > 0);
+        assert_eq!(
+            material_counts[material], expected,
+            "new material {material} reaches real BVH triangles"
+        );
+    }
+}
+
+#[test]
 fn step_budget_does_not_change_the_result() {
     let mut builder = SceneBuilder::new(SceneConfig::default());
     let scene = loop {
@@ -136,13 +270,13 @@ fn step_budget_does_not_change_the_result() {
 #[test]
 fn scene_regressions_and_catalog_mapping() {
     let scene = build(SceneConfig::default().seed);
-    assert_eq!(scene.instances.len(), 637);
+    assert_eq!(scene.instances.len(), 798);
     assert_eq!(
         scene.meshes.len(),
-        38,
-        "canonical box, puddle, two actors, ten cached details, 24 signs"
+        135,
+        "original 38 meshes plus four facade batches per building and road paint"
     );
-    assert_eq!(scene.materials.len(), 43);
+    assert_eq!(scene.materials.len(), 54);
     assert_eq!(scene.lights.len(), 44);
     assert_eq!(scene.signs.len(), 24);
     let puddles: Vec<_> = scene.instances.iter().filter(|i| i.material == 1).collect();
@@ -260,7 +394,7 @@ fn scene_regressions_and_catalog_mapping() {
     let detail_counts = scene
         .instances
         .iter()
-        .filter(|i| (9..=18).contains(&i.material))
+        .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material))
         .fold([0usize; 10], |mut counts, i| {
             counts[i.material as usize - 9] += 1;
             counts
@@ -273,7 +407,7 @@ fn scene_regressions_and_catalog_mapping() {
         scene
             .instances
             .iter()
-            .filter(|i| (9..=18).contains(&i.material))
+            .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material))
             .all(|i| {
                 let mat = &scene.materials[i.material as usize];
                 mat.kind == 0 && mat.emission == [0.0; 3]
@@ -296,7 +430,7 @@ fn scene_regressions_and_catalog_mapping() {
     for instance in scene
         .instances
         .iter()
-        .filter(|i| (9..=18).contains(&i.material) && i.material != 14)
+        .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material) && i.material != 14)
     {
         let x = instance.world_from_local.w_axis.x;
         let half_width = instance.world_from_local.x_axis.truncate().length() * 0.5;

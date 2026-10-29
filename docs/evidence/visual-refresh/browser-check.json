@@ -1,0 +1,337 @@
+[
+  {
+    "name": "showcase",
+    "query": "camera=showcase&time=3&paused=1",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 8.300000000000182,
+      "cpu_ms": 1,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "name": "no-bloom",
+    "query": "camera=showcase&time=3&paused=1&bloom=0",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 4.2999999999999545,
+      "cpu_ms": 0.5,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "name": "no-atmosphere",
+    "query": "camera=showcase&time=3&paused=1&atmosphere=0",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 8.300000000000068,
+      "cpu_ms": 0.6000000238418579,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "name": "reflection",
+    "query": "camera=showcase&time=3&paused=1&debug=reflection",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 4.199999999999932,
+      "cpu_ms": 0.40000003576278687,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "name": "roughness",
+    "query": "camera=showcase&time=3&paused=1&debug=roughness",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 4.199999999999932,
+      "cpu_ms": 0.5,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "name": "normal",
+    "query": "camera=showcase&time=3&paused=1&debug=normal",
+    "errors": [],
+    "pass": true,
+    "metrics": {
+      "frame": 32,
+      "last_error": null,
+      "errors": [],
+      "observed_frame_ms": 4.100000000000023,
+      "cpu_ms": 0.5,
+      "gpu_ms": null,
+      "bvh_stack_overflows": null,
+      "fatal_error": null,
+      "simulation_time_s": 3,
+      "output": [
+        1920,
+        1080
+      ],
+      "internal": [
+        1280,
+        720
+      ],
+      "quality": "Balanced"
+    }
+  },
+  {
+    "mode": "quality-resize-pause",
+    "errors": [],
+    "pass": true,
+    "observed": {
+      "quality": "Performance",
+      "output": [
+        1280,
+        800
+      ],
+      "pausedFrame": 146,
+      "resumedFrame": 273
+    }
+  },
+  {
+    "mode": "no-adapter",
+    "errors": [
+      "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+    ],
+    "pass": true,
+    "observed": {
+      "before": {
+        "frame": 0,
+        "last_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")",
+        "errors": [
+          "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+      },
+      "fatal": {
+        "frame": 0,
+        "last_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")",
+        "errors": [
+          "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+      },
+      "after": {
+        "frame": 0,
+        "last_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")",
+        "errors": [
+          "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "Capability(\"WebGPU adapter unavailable; use a WebGPU-enabled browser over HTTPS or localhost\")"
+      }
+    }
+  },
+  {
+    "mode": "missing-atlas",
+    "errors": [
+      "Failed to load resource: net::ERR_FAILED",
+      "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+    ],
+    "pass": true,
+    "observed": {
+      "before": {
+        "frame": 0,
+        "last_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))",
+        "errors": [
+          "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+      },
+      "fatal": {
+        "frame": 0,
+        "last_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))",
+        "errors": [
+          "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+      },
+      "after": {
+        "frame": 0,
+        "last_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))",
+        "errors": [
+          "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+        ],
+        "observed_frame_ms": null,
+        "cpu_ms": null,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "atlas unavailable: fetch assets/fonts/signs-rgba.png: JsValue(TypeError: Failed to fetch\nTypeError: Failed to fetch\n    at imports.wbg.__wbg_fetch_1b7e793ab8320753 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:473:26)\n    at neon_city.wasm.__wbg_fetch_1b7e793ab8320753 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1104]:0x66d64)\n    at neon_city.wasm.web_sys::features::gen_Window::Window::fetch_with_str::h0a7a1540231e087c (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1250]:0x67a52)\n    at neon_city.wasm.neon_city::app::fetch_bytes::{{closure}}::hcc9477134d3d6152 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[365]:0x3287a)\n    at neon_city.wasm.neon_city::app::start::{{closure}}::h60785eaa504974a3 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[333]:0x10d58)\n    at neon_city.wasm.neon_city::start::{{closure}}::hab7bb06fc5f4e158 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[706]:0x5f2a2)\n    at neon_city.wasm.wasm_bindgen_futures::queue::QueueState::run_all::ha7d8843be8d6ddde (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[514]:0x51978)\n    at neon_city.wasm.wasm_bindgen_futures::queue::Queue::new::{{closure}}::hb41ba83508953b46 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1053]:0x6676d)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x6673e)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6))"
+      }
+    }
+  },
+  {
+    "mode": "device-destroy",
+    "errors": [
+      "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)",
+      "Error: closure invoked recursively or after being dropped"
+    ],
+    "pass": true,
+    "observed": {
+      "before": {
+        "frame": 12,
+        "last_error": null,
+        "errors": [],
+        "observed_frame_ms": 8.399999999999977,
+        "cpu_ms": 0.3999999761581421,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": null,
+        "simulation_time_s": 0.16669999063014984,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      },
+      "fatal": {
+        "frame": 13,
+        "last_error": "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)",
+        "errors": [
+          "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)"
+        ],
+        "observed_frame_ms": 8.300000000000068,
+        "cpu_ms": 0.800000011920929,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)",
+        "simulation_time_s": 0.17499999701976776,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      },
+      "after": {
+        "frame": 13,
+        "last_error": "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)",
+        "errors": [
+          "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)"
+        ],
+        "observed_frame_ms": 8.300000000000068,
+        "cpu_ms": 0.800000011920929,
+        "gpu_ms": null,
+        "bvh_stack_overflows": null,
+        "fatal_error": "Global unhandledrejection event: Error: closure invoked recursively or after being dropped\n    at imports.wbg.__wbindgen_throw (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:1583:15)\n    at neon_city.wasm.wasm_bindgen::throw_str::h5b366a8f7c6aee97 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1377]:0x68130)\n    at neon_city.wasm.<dyn core::ops::function::FnMut<(A,)>+Output = R as wasm_bindgen::closure::WasmClosure>::describe::invoke::h26ae4e4c822ec489 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1051]:0x66730)\n    at neon_city.wasm.closure253 externref shim (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7_bg.wasm:wasm-function[1185]:0x675b6)\n    at __wbg_adapter_43 (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:232:10)\n    at real (http://127.0.0.1:4173/neon_city-d52eb1a58fd8dae7.js:135:20)",
+        "simulation_time_s": 0.17499999701976776,
+        "output": [
+          1920,
+          1080
+        ],
+        "internal": [
+          1280,
+          720
+        ],
+        "quality": "Balanced"
+      }
+    }
+  }
+]

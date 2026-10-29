@@ -7,6 +7,16 @@ const TRANSPARENT: u32 = 4;
 const CAR_MESH: u32 = 2;
 const DRONE_MESH: u32 = 3;
 const DETAIL_MESH_START: u32 = 4;
+// Append-only material ABI: 19..43 remain the catalog sign materials.
+const WINDOW_DARK: u32 = 43;
+const WINDOW_COOL: u32 = 44;
+const WINDOW_WARM: u32 = 45;
+const FACADE_FRAME: u32 = 46;
+const AWNING_PINK: u32 = 47;
+const AWNING_CYAN: u32 = 48;
+const ROAD_PAINT: u32 = 49;
+const PRACTICAL_LAMP: u32 = 50;
+const CAR_PAINT_START: u32 = 51;
 
 pub struct SceneBuilder {
     config: SceneConfig,
@@ -77,9 +87,13 @@ impl SceneBuilder {
         for (i, z) in [-42.0, -14.0, 14.0, 42.0].into_iter().enumerate() {
             scene.lights.push(light(
                 [0.0, 7.0, z],
-                [0.08, 0.68, 1.0],
-                12.0,
-                30.0,
+                if i % 2 == 0 {
+                    [0.22, 0.72, 1.0]
+                } else {
+                    [0.62, 0.48, 1.0]
+                },
+                22.0,
+                90.0,
                 0,
                 i as u32,
             ));
@@ -139,6 +153,7 @@ impl SceneBuilder {
             Vec3::new(w, h, depth),
             0,
         );
+        self.add_facade(index, side, z, h, depth);
         // Rear/setback volume creates distinct silhouettes without expanding mesh count.
         if index % 3 == 1 {
             add_instance(
@@ -150,6 +165,90 @@ impl SceneBuilder {
                 0,
             );
         }
+    }
+
+    fn add_facade(&mut self, index: u32, side: f32, z: f32, h: f32, depth: f32) {
+        // Four material batches per building, not one instance per pane/frame.
+        // At most 42 boxes: 12 panes, 24 frame/mullion parts, four courses, two canopy parts.
+        let mut batches: [MeshData; 4] = std::array::from_fn(|_| MeshData::default());
+        let rows = (((h - 8.0) / 3.0).floor() as usize + 1).min(4);
+        let pitch = depth * 0.26;
+        let pane_width = (pitch * 0.65).min(1.7);
+        for row in 0..rows {
+            let floor_pitch = ((h - 9.2) / (rows - 1) as f32).min(3.0);
+            let y = 8.2 + row as f32 * floor_pitch;
+            for col in 0..3 {
+                let dz = (col as f32 - 1.0) * pitch;
+                // One warm pane and two unlit panes per six; cool remains dominant.
+                let phase = (derive_seed(self.config.seed, 0x9000 + index as u64) % 6) as usize;
+                let state = (row * 3 + col + phase) % 6;
+                let batch = if state == 0 {
+                    2
+                } else if state <= 2 {
+                    0
+                } else {
+                    1
+                };
+                mesh_box(
+                    &mut batches[3],
+                    Vec3::new(0.0, y, dz),
+                    Vec3::new(0.06, 1.85, pane_width + 0.16),
+                );
+                mesh_box(
+                    &mut batches[batch],
+                    Vec3::new(-side * 0.045, y, dz),
+                    Vec3::new(0.035, 1.65, pane_width),
+                );
+                mesh_box(
+                    &mut batches[3],
+                    Vec3::new(-side * 0.075, y, dz),
+                    Vec3::new(0.025, 1.65, 0.055),
+                );
+            }
+            mesh_box(
+                &mut batches[3],
+                Vec3::new(-side * 0.03, y - 1.05, 0.0),
+                Vec3::new(0.10, 0.10, depth * 0.94),
+            );
+        }
+        let origin = Vec3::new(street_facing_x(&self.config, side, 0.10), 0.0, z);
+        for (batch, mesh) in batches.into_iter().enumerate() {
+            if mesh.indices.is_empty() {
+                continue;
+            }
+            let mesh_id = self.scene.meshes.len() as u32;
+            self.scene.meshes.push(mesh);
+            add_instance(
+                &mut self.scene,
+                mesh_id,
+                [WINDOW_DARK, WINDOW_COOL, WINDOW_WARM, FACADE_FRAME][batch],
+                origin,
+                Vec3::ONE,
+                0,
+            );
+        }
+        // Sign panels occupy y=5..6.8: canopy and valance stay entirely below 4.25.
+        let canopy_material = if index % 2 == 0 {
+            AWNING_PINK
+        } else {
+            AWNING_CYAN
+        };
+        add_instance(
+            &mut self.scene,
+            0,
+            canopy_material,
+            Vec3::new(street_facing_x(&self.config, side, 0.85), 4.10, z),
+            Vec3::new(1.65, 0.16, depth * 0.86),
+            0,
+        );
+        add_instance(
+            &mut self.scene,
+            0,
+            canopy_material,
+            Vec3::new(street_facing_x(&self.config, side, 1.63), 3.95, z),
+            Vec3::new(0.09, 0.30, depth * 0.86),
+            0,
+        );
     }
 
     fn add_dressing_sign_or_vehicle(&mut self, n: u32) {
@@ -184,12 +283,7 @@ impl SceneBuilder {
         let mesh = quad_mesh(side);
         let mesh_id = self.scene.meshes.len() as u32;
         self.scene.meshes.push(mesh);
-        let mat = self.scene.materials.len() as u32;
-        let mut sign_material = self.scene.materials[4 + kind as usize];
-        sign_material.base_color = entry.color_linear;
-        sign_material.emission = entry.color_linear.map(|channel| channel * entry.intensity);
-        sign_material.atlas_region = entry.region_id;
-        self.scene.materials.push(sign_material);
+        let mat = 19 + n;
         let id = add_instance(
             &mut self.scene,
             mesh_id,
@@ -291,6 +385,7 @@ impl SceneBuilder {
             0,
         );
         self.add_puddles();
+        self.add_road_markings_and_practicals();
         for side in [-1.0, 1.0] {
             add_instance(
                 &mut self.scene,
@@ -333,7 +428,7 @@ impl SceneBuilder {
             let id = add_instance(
                 &mut self.scene,
                 CAR_MESH,
-                0,
+                CAR_PAINT_START + i % 3,
                 Vec3::new(
                     if i % 2 == 0 { -3.5 } else { 3.5 },
                     0.55,
@@ -371,6 +466,93 @@ impl SceneBuilder {
             });
         }
         debug_assert!(self.scene.lights.len() <= 64);
+    }
+
+    fn add_road_markings_and_practicals(&mut self) {
+        let half_length = self.config.street_length_m * 0.5;
+        let mut paint = MeshData::default();
+        let mut z = -half_length + 3.0;
+        while z < half_length - 3.0 {
+            if (z + 24.0).abs() > 4.0 && (z - 24.0).abs() > 4.0 {
+                // Asphalt top is -0.005; paint bottom touches it, top is +0.007.
+                mesh_box(
+                    &mut paint,
+                    Vec3::new(0.0, 0.001, z),
+                    Vec3::new(0.14, 0.012, 2.1),
+                );
+            }
+            z += 4.5;
+        }
+        for crossing in [-24.0_f32, 24.0] {
+            if crossing.abs() + 3.0 >= half_length {
+                continue;
+            }
+            for stripe in 0..9 {
+                let x = -5.6 + stripe as f32 * 1.4;
+                // Existing wet lane strips reach y=0.03 at |x|=1..3.2.
+                // Split stripes at their edges so no paint floats above bare road.
+                let lo = x - 0.4;
+                let hi = x + 0.4;
+                let edges = [lo, -3.2, -1.0, 1.0, 3.2, hi];
+                let mut cuts: Vec<f32> =
+                    edges.into_iter().filter(|v| *v >= lo && *v <= hi).collect();
+                cuts.sort_by(f32::total_cmp);
+                cuts.dedup();
+                for pair in cuts.windows(2) {
+                    let cx = (pair[0] + pair[1]) * 0.5;
+                    let base = if (1.0..3.2).contains(&cx.abs()) {
+                        0.03
+                    } else {
+                        -0.005
+                    };
+                    mesh_box(
+                        &mut paint,
+                        Vec3::new(cx, base + 0.006, crossing),
+                        Vec3::new(pair[1] - pair[0], 0.012, 2.8),
+                    );
+                }
+            }
+        }
+        let mesh = self.scene.meshes.len() as u32;
+        self.scene.meshes.push(paint);
+        add_instance(&mut self.scene, mesh, ROAD_PAINT, Vec3::ZERO, Vec3::ONE, 0);
+        for (index, z) in [-42.0, -14.0, 14.0, 42.0].into_iter().enumerate() {
+            let side = if index % 2 == 0 { -1.0 } else { 1.0 };
+            let pole_x = street_facing_x(&self.config, side, 5.0);
+            add_instance(
+                &mut self.scene,
+                0,
+                FACADE_FRAME,
+                Vec3::new(pole_x, 3.9, z),
+                Vec3::new(0.14, 7.1, 0.14),
+                0,
+            );
+            add_instance(
+                &mut self.scene,
+                0,
+                FACADE_FRAME,
+                Vec3::new(pole_x * 0.5, 7.4, z),
+                Vec3::new(pole_x.abs() + 0.3, 0.12, 0.14),
+                0,
+            );
+            add_instance(
+                &mut self.scene,
+                0,
+                FACADE_FRAME,
+                Vec3::new(0.0, 7.25, z),
+                Vec3::new(1.4, 0.22, 0.65),
+                0,
+            );
+            let id = add_instance(
+                &mut self.scene,
+                0,
+                PRACTICAL_LAMP,
+                Vec3::new(0.0, 7.10, z),
+                Vec3::new(1.15, 0.08, 0.48),
+                0,
+            );
+            self.scene.lights[index].source_id = id;
+        }
     }
 
     fn add_puddles(&mut self) {
@@ -752,6 +934,7 @@ fn materials() -> Vec<MaterialGpu> {
     ] {
         m[index] = material(color, 0.0, roughness, 0.0, 0, 0);
     }
+    m[0] = material([0.26, 0.30, 0.35], 0.0, 0.72, 0.0, 0, 0);
     m[1] = material([0.035, 0.045, 0.055], 0.0, 0.08, 0.0, 1, 0);
     m[2] = material([0.07, 0.08, 0.09], 0.0, 0.32, 0.0, 2, 0);
     m[3] = material([0.12, 0.12, 0.11], 0.0, 0.78, 0.0, 3, 0);
@@ -762,6 +945,31 @@ fn materials() -> Vec<MaterialGpu> {
         m[4 + kind as usize] = material([1.0; 3], 0.0, 0.28, 0.0, 5, kind);
         m[4 + kind as usize].bloom_class = kind;
         m[4 + kind as usize].atlas_region = 0;
+    }
+    for entry in sign_catalog() {
+        let mut sign = m[4 + entry.kind as usize];
+        sign.base_color = entry.color_linear;
+        sign.emission = entry.color_linear.map(|c| c * entry.intensity);
+        sign.atlas_region = entry.region_id;
+        m.push(sign);
+    }
+    for (color, emission, roughness) in [
+        ([0.045, 0.09, 0.15], [0.0; 3], 0.32),
+        ([0.10, 0.22, 0.32], [0.04, 0.16, 0.28], 0.32),
+        ([0.34, 0.20, 0.09], [0.45, 0.20, 0.06], 0.38),
+        ([0.22, 0.29, 0.38], [0.0; 3], 0.58),
+        ([0.48, 0.045, 0.23], [0.0; 3], 0.62),
+        ([0.035, 0.36, 0.44], [0.0; 3], 0.62),
+        ([0.57, 0.66, 0.72], [0.0; 3], 0.68),
+        ([0.23, 0.65, 0.85], [0.7, 2.2, 3.2], 0.35),
+    ] {
+        let mut surface = material(color, 0.0, roughness, 0.0, 0, 0);
+        surface.emission = emission;
+        m.push(surface);
+    }
+    // Cars no longer inherit the brighter concrete facade material.
+    for color in [[0.28, 0.035, 0.09], [0.025, 0.16, 0.21], [0.19, 0.12, 0.29]] {
+        m.push(material(color, 0.25, 0.58, 0.0, 0, 0));
     }
     m
 }
@@ -1296,7 +1504,7 @@ mod tests {
             scene
                 .instances
                 .iter()
-                .filter(|i| i.material >= 9 && i.material <= 18)
+                .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material))
                 .count(),
             480
         );
@@ -1418,17 +1626,15 @@ mod tests {
         let detail_counts = scene
             .instances
             .iter()
-            .filter(|i| (9..=18).contains(&i.material))
+            .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material))
             .fold([0usize; 10], |mut counts, i| {
                 counts[i.material as usize - 9] += 1;
                 counts
             });
         assert_eq!(detail_counts, [48; 10]);
-        for instance in scene
-            .instances
-            .iter()
-            .filter(|i| (9..=18).contains(&i.material) && i.material != 14)
-        {
+        for instance in scene.instances.iter().filter(|i| {
+            (4..14).contains(&i.mesh) && (9..=18).contains(&i.material) && i.material != 14
+        }) {
             let x = instance.world_from_local.w_axis.x;
             let half_width = instance.world_from_local.x_axis.truncate().length() * 0.5;
             assert!(
@@ -1452,7 +1658,7 @@ mod tests {
         let details: Vec<_> = scene
             .instances
             .iter()
-            .filter(|i| (9..=18).contains(&i.material))
+            .filter(|i| (4..14).contains(&i.mesh) && (9..=18).contains(&i.material))
             .collect();
         assert_eq!(details.len(), 80);
         for side in [-1.0, 1.0] {

@@ -169,7 +169,9 @@ fn main(@builtin(global_invocation_id) id: vec3<u32>) {
         dir=normalize(mirror+(tangent_r*cos(angle_r)+bitangent_r*sin(angle_r))*spread);
         if (dot(dir,n)>0.0) { hit=trace(origin,dir,200.0,false); }
     }
-    var color=vec3<f32>(0.005,0.007,0.02);
+    // Same analytic sky as the raster background; geometry still uses BVH hits.
+    let horizon=pow(1.-clamp(dir.y,0.,1.),4.);
+    var color=mix(vec3<f32>(.012,.022,.055),vec3<f32>(.075,.035,.105),horizon);
     let size=arrayLength(&scene);
     if (hit.kind!=0u && size>=16u) {
         let mo=scene[8u]; let mc=scene[9u];
@@ -180,7 +182,7 @@ fn main(@builtin(global_invocation_id) id: vec3<u32>) {
             let region=scene[m+13u];
             if (scene[m+12u]==5u && region<arrayLength(&sign_rects)) { em*=sign_emission(sign_atlas,sign_sampler,sign_rects[region],hit.uv,scene[m+14u],multiplier,params); }
             else { em*=multiplier.rgb; }
-            color=em+sv3(m)*0.08;
+            color=em+sv3(m)*vec3<f32>(.22,.28,.40)*(.65+.35*max(hit.normal.y,0.));
             let ds=arrayLength(&dynamic);
             if (ds>=16u && section_ok(dynamic[6u],dynamic[7u],16u,ds)) {
                 let hitpos=origin+dir*hit.t;
